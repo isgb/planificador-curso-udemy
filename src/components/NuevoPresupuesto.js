@@ -4,10 +4,12 @@ import { Text, View, TextInput, Pressable, StyleSheet } from 'react-native'
 const NuevoPresupuesto = props => {
     return (
         <View style={styles.contenedor}>
-            <Text>Definir presupuesto</Text>
+            <Text style={styles.label}>Definir presupuesto</Text>
 
             <TextInput
-
+                keyboardType='numeric'
+                placeholder='Agregar presupuestp Ej. 300'
+                style={styles.input}
             />
 
             <Pressable>
