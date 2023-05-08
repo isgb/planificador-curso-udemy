@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { Text, View, TextInput, Pressable, StyleSheet } from 'react-native'
+import globalStyles from '../styles'
 
-const NuevoPresupuesto = ({handleNuevoPresupuesto}) => {
+const NuevoPresupuesto = ({ 
+    presupuesto, 
+    setPresupuesto, 
+    handleNuevoPresupuesto }) => {
 
-    const [presupuesto, setPresupuesto] = useState(0)
+
 
     return (
         <View style={styles.contenedor}>
@@ -17,9 +21,9 @@ const NuevoPresupuesto = ({handleNuevoPresupuesto}) => {
                 onChange={setPresupuesto}
             />
 
-            <Pressable 
+            <Pressable
                 style={styles.boton}
-                onPress={()=>handleNuevoPresupuesto(presupuesto)}
+                onPress={() => handleNuevoPresupuesto(presupuesto)}
             >
                 <Text style={styles.botonText}>Agregar presupuesto</Text>
             </Pressable>
@@ -29,46 +33,30 @@ const NuevoPresupuesto = ({handleNuevoPresupuesto}) => {
 
 const styles = StyleSheet.create({
     contenedor: {
-        backgroundColor: '#FFF',
-        marginHorizontal: 10,
-        marginVertical: 20,
-        borderRadius: 10,
-        paddingVertical: 40,
-        paddingHorizontal: 20,
-        transform: [{ translateY: 50 }],
-
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-
-        elevation: 4,
+        ...globalStyles.contenedor,
     },
-    label:{
+    label: {
         textAlign: 'center',
         fontSize: 24,
         color: '#3B82F6',
     },
-    input:{
-        backgroundColor:'#F5F5F5',
+    input: {
+        backgroundColor: '#F5F5F5',
         padding: 10,
         borderRadius: 10,
         textAlign: 'center',
         marginTop: 30
     },
-    boton:{
-        marginTop:30,
+    boton: {
+        marginTop: 30,
         backgroundColor: '#1048A4',
-        padding:10,
+        padding: 10,
         borderRadius: 10
     },
-    botonText:{
-        color:'#FFF',
+    botonText: {
+        color: '#FFF',
         textAlign: 'center',
-        textTransform:'uppercase',
+        textTransform: 'uppercase',
         fontWeight: 'bold',
 
     }
