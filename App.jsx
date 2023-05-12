@@ -13,6 +13,8 @@ import Header from './src/components/Header';
 import NuevoPresupuesto from './src/components/NuevoPresupuesto';
 import ControlPresupuesto from './src/components/ControlPresupuesto';
 import FormularioGasto from './src/components/FormularioGasto';
+import { generarId } from './src/helpers';
+import ListadoGastos from './src/components/ListadoGastos';
 
 
 const App = () => { 
@@ -37,7 +39,28 @@ const App = () => {
       // console.log('Presupuesto no válido')
       Alert.alert('Error', 'El presupuesto no puede ser 0 o menor','OK')
     }
+  }
 
+  const handleGasto = gasto =>{
+    // console.log(gasto)
+    // console.log(Object.values(gasto))
+
+    if(Object.values(gastos).includes('')){
+      // console.log('Hay almenos un cmapo vacio')
+      Alert.alert(
+        'Error',
+        "Todos los campos son obligatorios",
+      )
+      return
+    }
+
+    //Añadir el nuevo gasto al state
+    // console.log(gasto)
+    gasto.id = generarId()
+    console.log(gasto)
+  
+    setGastos([...gastos, gasto])
+    setModal(!modal)
   }
 
   return (
@@ -47,10 +70,12 @@ const App = () => {
         <Header />
 
         {isValidPresupuesto ? (
+          
            <ControlPresupuesto
               presupuesto={presupuesto}
               gastos={gastos}
            />
+
         ) : (
             <NuevoPresupuesto 
               presupuesto={presupuesto}
@@ -60,6 +85,12 @@ const App = () => {
         )}
 
       </View>
+
+      {isValidPresupuesto &&(
+        <ListadoGastos
+          gastos={gastos}
+        />
+      )}
 
       {modal && (
           <Modal
@@ -71,6 +102,7 @@ const App = () => {
           >
             <FormularioGasto
               setModal={setModal}
+              handleGasto={handleGasto}
             />
           </Modal>
         )}
