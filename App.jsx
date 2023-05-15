@@ -17,7 +17,7 @@ import { generarId } from './src/helpers';
 import ListadoGastos from './src/components/ListadoGastos';
 
 
-const App = () => { 
+const App = () => {
 
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
   const [presupuesto, setPresupuesto] = useState(0);
@@ -31,21 +31,21 @@ const App = () => {
   const handleNuevoPresupuesto = (presupuesto) => {
     console.log('desde app', presupuesto)
 
-    if(Number(presupuesto) > 0){
+    if (Number(presupuesto) > 0) {
       // console.log('Presupuesto valido')
       setIsValidPresupuesto(true)
     }
-    else{
+    else {
       // console.log('Presupuesto no válido')
-      Alert.alert('Error', 'El presupuesto no puede ser 0 o menor','OK')
+      Alert.alert('Error', 'El presupuesto no puede ser 0 o menor', 'OK')
     }
   }
 
-  const handleGasto = gasto =>{
+  const handleGasto = gasto => {
     // console.log(gasto)
     // console.log(Object.values(gasto))
 
-    if(Object.values(gastos).includes('')){
+    if (Object.values(gastos).includes('')) {
       // console.log('Hay almenos un cmapo vacio')
       Alert.alert(
         'Error',
@@ -58,54 +58,56 @@ const App = () => {
     // console.log(gasto)
     gasto.id = generarId()
     console.log(gasto)
-  
+
     setGastos([...gastos, gasto])
     setModal(!modal)
   }
 
   return (
     <View style={styles.contenedor}>
+      <ScrollView>
 
-      <View style={styles.header}>
-        <Header />
+        <View style={styles.header}>
+          <Header />
 
-        {isValidPresupuesto ? (
-          
-           <ControlPresupuesto
+          {isValidPresupuesto ? (
+
+            <ControlPresupuesto
               presupuesto={presupuesto}
               gastos={gastos}
-           />
+            />
 
-        ) : (
-            <NuevoPresupuesto 
+          ) : (
+            <NuevoPresupuesto
               presupuesto={presupuesto}
               setPresupuesto={setPresupuesto}
               handleNuevoPresupuesto={handleNuevoPresupuesto}
             />
+          )}
+
+        </View>
+
+        {isValidPresupuesto && (
+          <ListadoGastos
+            gastos={gastos}
+          />
         )}
-
-      </View>
-
-      {isValidPresupuesto &&(
-        <ListadoGastos
-          gastos={gastos}
-        />
-      )}
+      </ScrollView>
 
       {modal && (
-          <Modal
-            animationType='slide'
-            visible={modal}
-            onRequestClose={() =>{
-              setModal(!modal)
-            }}
-          >
-            <FormularioGasto
-              setModal={setModal}
-              handleGasto={handleGasto}
-            />
-          </Modal>
-        )}
+        <Modal
+          animationType='slide'
+          visible={modal}
+          onRequestClose={() => {
+            setModal(!modal)
+          }}
+        >
+          <FormularioGasto
+            setModal={setModal}
+            handleGasto={handleGasto}
+          />
+        </Modal>
+      )}
 
       {isValidPresupuesto && (
         <Pressable
@@ -128,14 +130,15 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
-    backgroundColor: '#3B82F6'
+    backgroundColor: '#3B82F6',
+    minHeight:400
   },
-  imagen:{
+  imagen: {
     width: 60,
-    height:60,
-    position:'absolute',
-    top: 10,
-    right: 20
+    height: 60,
+    position: 'absolute',
+    bottom: 40,
+    right: 30
   }
 });
 
