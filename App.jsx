@@ -56,8 +56,9 @@ const App = () => {
 
     //Añadir el nuevo gasto al state
     // console.log(gasto)
-    gasto.id = generarId()
-    console.log(gasto)
+    gasto.id = generarId();
+    gasto.fecha = Date.now();
+    // console.log(gasto)
 
     setGastos([...gastos, gasto])
     setModal(!modal)
