@@ -1,127 +1,148 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, TextInput } from 'react-native/types';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import globalStyles from '../styles';
 
-const FormularioGasto = ({setModal, handleGasto}) => {
+const FormularioGasto = ({ setModal, handleGasto, setGasto, gasto }) => {
 
-    const[nombre,setNombre] = useState('');
-    const[cantidad,setCantidad] = useState('');
-    const[categoria,setCategoria] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [cantidad, setCantidad] = useState('');
+    const [categoria, setCategoria] = useState('');
+    const [id, setId] = useState('');
+    const [fecha, setFecha] = useState('')
 
-  return (
-    <SafeAreaView style={styles.contenedor}>
-        <View>
-            <Pressable 
-                onLongPress={()=>setModal(false)}
-                style={styles.btnCancelar}
-            >
-                <Text style={styles.btnCancelarTexto}>Cancelar</Text>
-            </Pressable>
-        </View>
+    useEffect(() => {
+        if (gasto?.nombre) {
+            // console.log('Si hay algo')
+            setNombre(gasto.nombre)
+            setCantidad(gasto.cantidad)
+            setCategoria(gasto.categoria)
+            setId(gasto.id)
+            setFecha(gasto.fecha)
+        }
+        // else{
+        //     console.log('No hay nada')
+        // }
+    }, [gasto])
 
-        <View style={styles.formulario}>
-            <Text style={styles.titulo}>Nuevo Gasto</Text>
-
-            <View style={styles.campo}>
-                <Text style={styles.label}>Nombre Gasto</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Nombre del gasto. ej. Comida'
-                    onChangeText={setNombre}
-                    value={nombre}                  
-                />
-            </View>
-
-            <View style={styles.campo}>
-                <Text style={styles.label}>Cantidad Gasto</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Cantidad del gasto. ej. 300'
-                    keyboardType='numeric'
-                    onChangeText={setCampo}
-                    value={campo}  
-                />
-            </View>
-
-            <View style={styles.campo}>
-                <Text style={styles.label}>Categoría Gasto</Text>
-                <Picker
-                    selectedValue={categoria}
-                    onValueChange={(valor) => {
-                        setCategoria(valor)
+    return (
+        <SafeAreaView style={styles.contenedor}>
+            <View>
+                <Pressable
+                    onLongPress={() => {
+                        setModal(false)
+                        setGasto({})
                     }}
+                    style={styles.btnCancelar}
                 >
-                    <Picker.Item label='-- Seleccione --' value=""/>
-                    <Picker.Item label='Ahorro' value="ahorro"/>
-                    <Picker.Item label='Comida' value="comida"/>
-                    <Picker.Item label='Casa' value="casa"/>
-                    <Picker.Item label='Gastos varios' value="gastos"/>
-                    <Picker.Item label='Ocio' value="ocio"/>
-                    <Picker.Item label='Salud' value="salud"/>
-                    <Picker.Item label='Suscripciones' value="suscripciones"/>
-                </Picker>
+                    <Text style={styles.btnCancelarTexto}>Cancelar</Text>
+                </Pressable>
             </View>
 
-            <Pressable 
-                styles={styles.submitBtn}
-                onPress={()=> handleGasto({nombre, cantidad, categoria})}
-            >
-                <Text styles={styles.submitBtnTexto}>Agregar Gasto</Text>
-            </Pressable>
-        </View>
-    </SafeAreaView>
-  )
+            <View style={styles.formulario}>
+                <Text style={styles.titulo}>{gasto?.nombre ? 'Editar Gasto' : 'Nuevo Gasto'}</Text>
+
+                <View style={styles.campo}>
+                    <Text style={styles.label}>Nombre Gasto</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Nombre del gasto. ej. Comida'
+                        onChangeText={setNombre}
+                        value={nombre}
+                    />
+                </View>
+
+                <View style={styles.campo}>
+                    <Text style={styles.label}>Cantidad Gasto</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Cantidad del gasto. ej. 300'
+                        keyboardType='numeric'
+                        onChangeText={setCampo}
+                        value={campo}
+                    />
+                </View>
+
+                <View style={styles.campo}>
+                    <Text style={styles.label}>Categoría Gasto</Text>
+                    <Picker
+                        selectedValue={categoria}
+                        onValueChange={(valor) => {
+                            setCategoria(valor)
+                        }}
+                    >
+                        <Picker.Item label='-- Seleccione --' value="" />
+                        <Picker.Item label='Ahorro' value="ahorro" />
+                        <Picker.Item label='Comida' value="comida" />
+                        <Picker.Item label='Casa' value="casa" />
+                        <Picker.Item label='Gastos varios' value="gastos" />
+                        <Picker.Item label='Ocio' value="ocio" />
+                        <Picker.Item label='Salud' value="salud" />
+                        <Picker.Item label='Suscripciones' value="suscripciones" />
+                    </Picker>
+                </View>
+
+                <Pressable
+                    styles={styles.submitBtn}
+                    onPress={() => handleGasto({ nombre, cantidad, categoria , id, fecha})}
+                >
+                    <Text styles={styles.submitBtnTexto}>
+                        {gasto?.nombre ? 'Guardar Cambios Gasto' : 'Agregar Gasto'}
+                    </Text>
+                </Pressable>
+            </View>
+        </SafeAreaView>
+    )
 }
 
 
 const styles = StyleSheet.create({
     contenedor: {
         backgroundColor: '#1E40AF',
-        flex:1
+        flex: 1
     },
-    btnCancelar:{
-        backgroundColor:'#DB2777',
+    btnCancelar: {
+        backgroundColor: '#DB2777',
         padding: 10,
         marginTop: 30,
-        marginHorizontal:10,
+        marginHorizontal: 10,
     },
-    btnCancelarTexto:{
+    btnCancelarTexto: {
         textAlign: 'center',
         textTransform: 'uppercase',
         fontWeight: 'bold',
         color: '#FFF'
     },
-    formulario:{
+    formulario: {
         ...globalStyles.contenedor
     },
-    titulo:{
+    titulo: {
         textAlign: 'center',
-        fontSize:28,
+        fontSize: 28,
         marginBottom: 30,
         color: '#64748B'
     },
-    campo:{
+    campo: {
         marginVertical: 10
     },
-    label:{
+    label: {
         color: '#64748B',
         textTransform: 'uppercase',
         fontSize: 16,
         fontWeight: 'bold'
     },
-    input:{
-        backgroundColor:'#F5F5F5',
+    input: {
+        backgroundColor: '#F5F5F5',
         padding: 10,
         borderRadius: 10,
         marginTop: 10
     },
-    submitBtn:{
+    submitBtn: {
         backgroundColor: '#3B82F6',
-        padding:10,
+        padding: 10,
         marginTop: 20
     },
-    submitBtnTexto:{
+    submitBtnTexto: {
         textAlign: 'center',
         color: '#FFF',
         fontWeight: 'bold',

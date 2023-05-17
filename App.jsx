@@ -27,6 +27,7 @@ const App = () => {
     // {id:3,cantidad: 50},
   ]);
   const [modal, setModal] = useState(false);
+  const [gasto, setGasto] = useState({});
 
   const handleNuevoPresupuesto = (presupuesto) => {
     console.log('desde app', presupuesto)
@@ -45,7 +46,8 @@ const App = () => {
     // console.log(gasto)
     // console.log(Object.values(gasto))
 
-    if (Object.values(gastos).includes('')) {
+    // if (Object.values(gastos).includes('')) {
+      if ([ gasto.nombre, gasto.categoria, gasto.cantidad ].includes('')) {
       // console.log('Hay almenos un cmapo vacio')
       Alert.alert(
         'Error',
@@ -54,13 +56,21 @@ const App = () => {
       return
     }
 
-    //Añadir el nuevo gasto al state
-    // console.log(gasto)
-    gasto.id = generarId();
-    gasto.fecha = Date.now();
-    // console.log(gasto)
+    if(gasto.id){
+      // console.log('Edicion')
+      const gastosActualizados = gastos.map( gastoState => gastoState.id === gasto.id ? gasto : gastoState )
+      setGastos(gastosActualizados)
+    }
+    else{
+      console.log('Nuevo regsitro')
 
-    setGastos([...gastos, gasto])
+          //Añadir el nuevo gasto al state
+          // console.log(gasto)
+          gasto.id = generarId();
+          gasto.fecha = Date.now();
+          // console.log(gasto)
+          setGastos([...gastos, gasto])
+    }
     setModal(!modal)
   }
 
@@ -91,6 +101,8 @@ const App = () => {
         {isValidPresupuesto && (
           <ListadoGastos
             gastos={gastos}
+            setModal={setModal}
+            setGasto={setGasto}
           />
         )}
       </ScrollView>
@@ -106,6 +118,8 @@ const App = () => {
           <FormularioGasto
             setModal={setModal}
             handleGasto={handleGasto}
+            gasto={gasto}
+            setGasto={setGasto}
           />
         </Modal>
       )}

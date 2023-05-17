@@ -3,7 +3,7 @@ import { Text,View,Image, StyleSheet } from 'react-native/types'
 import globalStyles from '../styles'
 import { formatearCantidad } from '../helpers'
 
-const ControlPresupuesto = ({presupuesto, presupuesto}) => {
+const ControlPresupuesto = ({presupuesto, gastos}) => {
 
   const [disponible, setDisponible] = useState(0)
   const [gastado, setGastado] = useState(0)
@@ -19,7 +19,7 @@ const ControlPresupuesto = ({presupuesto, presupuesto}) => {
     setGastado(totalGastado)
     setDisponible(totalDisponible)
     // console.log(totalGastado)
-  },[])
+  },[gastos])
 
   return (
     <View style={styles.centrarGrafica}>

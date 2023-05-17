@@ -1,7 +1,7 @@
 import React from 'react'
-import { View,Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import globalStyles from '../styles';
-import { formatearCantidad,formatearFecha } from '../helpers';
+import { formatearCantidad, formatearFecha } from '../helpers';
 
 const diccionarioIconos = {
   ahorro: require('../img/icono_ahorro.png'),
@@ -13,20 +13,29 @@ const diccionarioIconos = {
   suscripciones: require('../img/icono_suscripciones.png'),
 }
 
-const Gasto = ({gasto}) => {
-  
-  const { nombre , categoria, cantidad, id,fecha } = gasto;
+const Gasto = ({ gasto, setModal,setGasto }) => {
+
+  const { nombre, categoria, cantidad, id, fecha } = gasto;
+
+  const handleAcciones = () =>{
+    setModal(true)
+    setGasto(gasto)
+  }
+
 
   return (
-    <View style={styles.contenedor}>
+    <Pressable
+      onLongPress={handleAcciones}
+    >
+      <View style={styles.contenedor}>
 
         <View style={styles.contenido}>
 
-        <View style={styles.contenedorImagen}>
-          <Image
-          style={styles.imagen}
-            source={diccionarioIconos[categoria]}
-          />
+          <View style={styles.contenedorImagen}>
+            <Image
+              style={styles.imagen}
+              source={diccionarioIconos[categoria]}
+            />
           </View>
 
           <View style={styles.contenedorTexto}>
@@ -38,7 +47,8 @@ const Gasto = ({gasto}) => {
           <Text style={styles.cantidad}>{formatearCantidad(cantidad)}</Text>
         </View>
 
-    </View>
+      </View>
+    </Pressable>
   )
 }
 
@@ -47,43 +57,43 @@ const styles = StyleSheet.create({
     ...globalStyles.contenedor,
     marginBottom: 20
   },
-  contenido:{
-    flexDirection:'row',
+  contenido: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  contenedorImagen:{
+  contenedorImagen: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1
   },
-  imagen:{
-    width:80,
-    height:80,
-    marginRight:20
+  imagen: {
+    width: 80,
+    height: 80,
+    marginRight: 20
   },
-  contenedorTexto:{
+  contenedorTexto: {
     flex: 1
   },
-  categoria:{
+  categoria: {
     color: '#94A3B8',
-    fontSize:16,
+    fontSize: 16,
     fontWeight: '700',
     textTransform: 'uppercase',
     marginBottom: 5
   },
-  nombre:{
-    fontSize:22,
+  nombre: {
+    fontSize: 22,
     color: '#64748B',
     marginBottom: 5
   },
-  cantidad:{
-    fontSize:20,
-    fontWeight:'700'
+  cantidad: {
+    fontSize: 20,
+    fontWeight: '700'
   },
-  fecha:{
-    fontWeight:'700',
-    color:'#DB2777'
+  fecha: {
+    fontWeight: '700',
+    color: '#DB2777'
   }
 })
 
