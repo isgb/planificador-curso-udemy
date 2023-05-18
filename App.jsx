@@ -74,6 +74,27 @@ const App = () => {
     setModal(!modal)
   }
 
+  const eliminarGasto = id =>{
+    // console.log('eliminando',id)
+    Alert.alert(
+      '¿Deseas eliminar este gasto',
+      'Un gasto eliminado no se puede recuperar',
+      [
+        { text: 'No', style: 'cancel' },
+        { text: 'Sí, Eliminar' , onPress: ()=>{
+          // console.log('Eliminando ',id)
+
+          const gastosActualizados = gastos.filter( gastoState => 
+              gastoState.id !== id)
+
+              setGastos(gastosActualizados)
+              setModal(!modal)
+              setGasto({})
+        }}
+      ]
+    )
+  }
+
   return (
     <View style={styles.contenedor}>
       <ScrollView>
@@ -120,12 +141,14 @@ const App = () => {
             handleGasto={handleGasto}
             gasto={gasto}
             setGasto={setGasto}
+            eliminarGasto={eliminarGasto}
           />
         </Modal>
       )}
 
       {isValidPresupuesto && (
         <Pressable
+        style={styles.pressable}
           onPress={() => setModal(!modal)}
         >
           <Image
@@ -148,12 +171,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#3B82F6',
     minHeight:400
   },
-  imagen: {
+  pressable:{
+    // backgroundColor: 'red',
     width: 60,
     height: 60,
     position: 'absolute',
     bottom: 40,
     right: 30
+  },
+  imagen: {
+    width: 60,
+    height: 60,
+    // position: 'absolute',
+    // bottom: 40,
+    // right: 30
   }
 });
 

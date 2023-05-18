@@ -3,7 +3,7 @@ import { Pressable, SafeAreaView, StyleSheet, Text, TextInput } from 'react-nati
 import { Picker } from '@react-native-picker/picker';
 import globalStyles from '../styles';
 
-const FormularioGasto = ({ setModal, handleGasto, setGasto, gasto }) => {
+const FormularioGasto = ({ setModal, handleGasto, setGasto, gasto,eliminarGasto }) => {
 
     const [nombre, setNombre] = useState('');
     const [cantidad, setCantidad] = useState('');
@@ -27,15 +27,23 @@ const FormularioGasto = ({ setModal, handleGasto, setGasto, gasto }) => {
 
     return (
         <SafeAreaView style={styles.contenedor}>
-            <View>
+            <View style={styles.contenedorBotones}>
                 <Pressable
                     onLongPress={() => {
                         setModal(false)
                         setGasto({})
                     }}
-                    style={styles.btnCancelar}
+                    style={[styles.btn,styles.btnCancelar]}
                 >
-                    <Text style={styles.btnCancelarTexto}>Cancelar</Text>
+                    <Text style={styles.btnTexto}>Cancelar</Text>
+                </Pressable>
+
+                <Pressable
+                    onLongPress={() => eliminarGasto(id)}
+                    style={[styles.btn,styles.btnEliminar]}
+                    
+                >
+                    <Text style={styles.btnTexto}>Eliminar</Text>
                 </Pressable>
             </View>
 
@@ -101,13 +109,23 @@ const styles = StyleSheet.create({
         backgroundColor: '#1E40AF',
         flex: 1
     },
-    btnCancelar: {
-        backgroundColor: '#DB2777',
+    contenedorBotones:{
+        flexDirection: 'row',
+        justifyContent:'space-between'
+    },
+    btn:{
         padding: 10,
         marginTop: 30,
         marginHorizontal: 10,
+        flex: 1
     },
-    btnCancelarTexto: {
+    btnCancelar: {
+        backgroundColor: '#DB2777',
+    },
+    btnEliminar:{
+        backgroundColor: 'red'
+    },
+    btnTexto: {
         textAlign: 'center',
         textTransform: 'uppercase',
         fontWeight: 'bold',
