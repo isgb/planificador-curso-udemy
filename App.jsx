@@ -15,6 +15,7 @@ import ControlPresupuesto from './src/components/ControlPresupuesto';
 import FormularioGasto from './src/components/FormularioGasto';
 import { generarId } from './src/helpers';
 import ListadoGastos from './src/components/ListadoGastos';
+import Filtro from './src/components/Filtro';
 
 
 const App = () => {
@@ -28,6 +29,8 @@ const App = () => {
   ]);
   const [modal, setModal] = useState(false);
   const [gasto, setGasto] = useState({});
+  const [filtro, setFiltro] = useState('');
+  const [gastosFiltrados, setGastosFiltrados] = useState([]);
 
   const handleNuevoPresupuesto = (presupuesto) => {
     console.log('desde app', presupuesto)
@@ -47,7 +50,7 @@ const App = () => {
     // console.log(Object.values(gasto))
 
     // if (Object.values(gastos).includes('')) {
-      if ([ gasto.nombre, gasto.categoria, gasto.cantidad ].includes('')) {
+    if ([gasto.nombre, gasto.categoria, gasto.cantidad].includes('')) {
       // console.log('Hay almenos un cmapo vacio')
       Alert.alert(
         'Error',
@@ -56,41 +59,43 @@ const App = () => {
       return
     }
 
-    if(gasto.id){
+    if (gasto.id) {
       // console.log('Edicion')
-      const gastosActualizados = gastos.map( gastoState => gastoState.id === gasto.id ? gasto : gastoState )
+      const gastosActualizados = gastos.map(gastoState => gastoState.id === gasto.id ? gasto : gastoState)
       setGastos(gastosActualizados)
     }
-    else{
+    else {
       console.log('Nuevo regsitro')
 
-          //Añadir el nuevo gasto al state
-          // console.log(gasto)
-          gasto.id = generarId();
-          gasto.fecha = Date.now();
-          // console.log(gasto)
-          setGastos([...gastos, gasto])
+      //Añadir el nuevo gasto al state
+      // console.log(gasto)
+      gasto.id = generarId();
+      gasto.fecha = Date.now();
+      // console.log(gasto)
+      setGastos([...gastos, gasto])
     }
     setModal(!modal)
   }
 
-  const eliminarGasto = id =>{
+  const eliminarGasto = id => {
     // console.log('eliminando',id)
     Alert.alert(
       '¿Deseas eliminar este gasto',
       'Un gasto eliminado no se puede recuperar',
       [
         { text: 'No', style: 'cancel' },
-        { text: 'Sí, Eliminar' , onPress: ()=>{
-          // console.log('Eliminando ',id)
+        {
+          text: 'Sí, Eliminar', onPress: () => {
+            // console.log('Eliminando ',id)
 
-          const gastosActualizados = gastos.filter( gastoState => 
+            const gastosActualizados = gastos.filter(gastoState =>
               gastoState.id !== id)
 
-              setGastos(gastosActualizados)
-              setModal(!modal)
-              setGasto({})
-        }}
+            setGastos(gastosActualizados)
+            setModal(!modal)
+            setGasto({})
+          }
+        }
       ]
     )
   }
@@ -120,11 +125,24 @@ const App = () => {
         </View>
 
         {isValidPresupuesto && (
-          <ListadoGastos
-            gastos={gastos}
-            setModal={setModal}
-            setGasto={setGasto}
-          />
+          <>
+            <Filtro
+              filtro={filtro}
+              setFiltro={setFiltro}
+              gastos={gastos}
+              setGastosFiltrados={setGastosFiltrados}
+            />
+
+            <ListadoGastos
+              gastos={gastos}
+              setModal={setModal}
+              setGasto={setGasto}
+              filtro={filtro}
+              gastosFiltrados={gastosFiltrados}
+            />
+
+          </>
+
         )}
       </ScrollView>
 
@@ -148,7 +166,7 @@ const App = () => {
 
       {isValidPresupuesto && (
         <Pressable
-        style={styles.pressable}
+          style={styles.pressable}
           onPress={() => setModal(!modal)}
         >
           <Image
@@ -169,9 +187,9 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#3B82F6',
-    minHeight:400
+    minHeight: 400
   },
-  pressable:{
+  pressable: {
     // backgroundColor: 'red',
     width: 60,
     height: 60,

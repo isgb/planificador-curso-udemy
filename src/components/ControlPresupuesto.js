@@ -8,6 +8,7 @@ const ControlPresupuesto = ({presupuesto, gastos}) => {
 
   const [disponible, setDisponible] = useState(0)
   const [gastado, setGastado] = useState(0)
+  const [porcentaje, setPorcentaje] = useState(0)
 
   useEffect(() => {
 
@@ -16,6 +17,15 @@ const ControlPresupuesto = ({presupuesto, gastos}) => {
 
     const totalDisponible = presupuesto - totalGastado;
     // console.log(totalDisponible)
+
+    const nuevoPorcentaje = (
+     ((presupuesto - totalDisponible)/presupuesto) * 100
+    )
+
+   
+    setTimeout(() => {
+      setPorcentaje(nuevoPorcentaje)
+    },1000);
 
     setGastado(totalGastado)
     setDisponible(totalDisponible)
@@ -30,7 +40,17 @@ const ControlPresupuesto = ({presupuesto, gastos}) => {
           source={require('../img/grafico.jpg')}
         /> */}
       <CircularProgress
-        value={50}
+        value={porcentaje}
+        duration={10000}
+        radius={150}
+        valueSuffix={'%'}
+        title='Gastado'
+        inActiveStrokeColor='#F5F5F5'
+        inActiveStrokeWidth={20}
+        activeStrokeColor='#3b82f6'
+        activeStrokeWidth={20}
+        titleStyle={{ fontWeight: 'bold', fontSize:20 }}
+        titleColor='#64748B'
       />
       </View>
 
