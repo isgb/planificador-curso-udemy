@@ -1,13 +1,27 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput, Pressable, StyleSheet } from 'react-native'
+// import { Text, View, TextInput, Pressable, StyleSheet } from 'react-native'
 import globalStyles from '../styles'
+import { err } from 'react-native-svg/lib/typescript/xml'
 
 const NuevoPresupuesto = ({ 
     presupuesto, 
     setPresupuesto, 
     handleNuevoPresupuesto }) => {
 
+    // useEffect(() => {
+    //     const obtenerAS = async () =>{
+    //         try {
 
+    //             const valor = await AsyncStorage.getItem('get_item')
+    //             console.log(JSON.parse(valor))
+                
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+
+    //     obtenerAS();
+    // },[])
 
     return (
         <View style={styles.contenedor}>
