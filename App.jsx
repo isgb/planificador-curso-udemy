@@ -179,6 +179,27 @@ const App = () => {
     )
   }
 
+  const resetearAp = () => {
+    Alert.alert(
+      'Deseas resetear la app?',
+      'Esto eliminará presupuesto y gastos',
+      [
+        { text: 'No', style: 'cancel'},
+        { text:'Si, Eliminar', onPress: async () => {
+          try {
+            await AsyncStorage.clear()
+
+            setIsValidPresupuesto(false)
+            setPresupuesto(0)
+            setGastos([])
+          } catch (error) {
+            console.log(error)
+          }
+        }}
+      ]
+    )
+  }
+
   return (
     <View style={styles.contenedor}>
       <ScrollView>
@@ -191,6 +212,7 @@ const App = () => {
             <ControlPresupuesto
               presupuesto={presupuesto}
               gastos={gastos}
+              resetearAp={resetearAp}
             />
 
           ) : (
