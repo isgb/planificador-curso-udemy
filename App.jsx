@@ -190,8 +190,11 @@ const App = () => {
             await AsyncStorage.clear()
 
             setIsValidPresupuesto(false)
+
             setPresupuesto(0)
+
             setGastos([])
+            
           } catch (error) {
             console.log(error)
           }
